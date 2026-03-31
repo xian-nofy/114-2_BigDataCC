@@ -1,23 +1,37 @@
-姓名：（你的姓名）
-學號：（你的學號）
+姓名：陳璽安
+學號：C112181101
 
 === whoami ===
-（貼上執行結果）
+student105
 
 === hostname ===
-（貼上執行結果）
+linux-server1
 
 === pwd ===
-（貼上執行結果）
+/home/student105
 
 === uname -a ===
-（貼上執行結果）
+Linux linux-server1 6.1.163-186.299.amzn2023.x86_64 #1 SMP PREEMPT_DYNAMIC Tue Feb 24 16:35:42 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
 
 === date ===
-（貼上執行結果）
+Tue Mar 31 06:51:20 UTC 2026
 
 === ls / ===
-（貼上執行結果）
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
 
 === ls -la ~ ===
-（貼上執行結果）
+total 52
+drwxr-x---. 9 student105 student105 16384 Mar 17 07:23 .
+drwxr-xr-x. 1 root       root       16384 Mar 10 03:13 ..
+-rw-------. 1 student105 student105   943 Mar 17 08:05 .bash_history
+-rw-r--r--. 1 student105 student105   220 Jan  6  2022 .bash_logout
+-rw-r--r--. 1 student105 student105  3771 Jan  6  2022 .bashrc
+drwx------. 2 student105 student105    34 Mar 10 03:16 .cache
+drwxrwxr-x. 3 student105 student105    19 Mar 17 07:23 .local
+-rw-r--r--. 1 student105 student105   807 Jan  6  2022 .profile
+-rw-rw-r--. 1 student105 student105   189 Mar  9 06:49 README.txt
+drwxrwxr-x. 2 student105 student105     6 Mar  9 06:49 documents
+drwxr-xr-x. 2 student105 student105    83 Mar  9 06:49 exercises
+drwxrwxr-x. 2 student105 student105     6 Mar  9 06:49 projects
+drwxrwxr-x. 2 student105 student105     6 Mar  9 06:49 scripts
+drwxrwxr-x. 4 student105 student105    63 Mar 17 07:55 week04
