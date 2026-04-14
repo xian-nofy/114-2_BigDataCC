@@ -1,5 +1,5 @@
-姓名：
-學號：
+姓名：陳璽安
+學號：C112181101
 
 === 任務 1：新增船舶資料 ===
 執行以下指令新增 5 筆船舶資料：
@@ -22,8 +22,13 @@ mysql> SELECT * FROM ships;
 |  3 | Formosa 1         | Bulk      |   85000 | 2026-04-12   |
 |  4 | Ocean Star        | Tanker    |   95000 | 2026-04-13   |
 |  5 | Kaohsiung Express | Container |  180000 | 2026-04-14   |
+|  6 | Ever Given        | Container |  220940 | 2026-04-10   |
+|  7 | Yang Ming Wish    | Container |  150000 | 2026-04-11   |
+|  8 | Formosa 1         | Bulk      |   85000 | 2026-04-12   |
+|  9 | Ocean Star        | Tanker    |   95000 | 2026-04-13   |
+| 10 | Kaohsiung Express | Container |  180000 | 2026-04-14   |
 +----+-------------------+-----------+---------+--------------+
-5 rows in set (0.00 sec)
+10 rows in set (0.00 sec)
 
 === 任務 2：新增船員資料 ===
 在 crew 表中插入至少 8 筆船員資料，要求：
@@ -31,35 +36,141 @@ mysql> SELECT * FROM ships;
 - ship_id 要對應到 ships 表中存在的船
 
 （貼上你寫的 INSERT INTO 語句）
-
+Query OK, 8 rows affected (0.00 sec)
+Records: 8  Duplicates: 0  Warnings: 0
 SELECT * FROM crew;
 （貼上結果）
++----+-------------------+----------+---------+---------+
+| id | name              | rank     | ship_id | salary  |
++----+-------------------+----------+---------+---------+
+|  1 | Monkey D. Luffy   | Captain  |       1 | 9999.99 |
+|  2 | Roronoa Zoro      | Officer  |       1 | 8000.00 |
+|  3 | Nami              | Officer  |       2 | 7500.00 |
+|  4 | Tony Tony Chopper | Crew     |       2 |  100.00 |
+|  5 | Vinsmoke Sanji    | Engineer |       3 | 7000.00 |
+|  6 | Nico Robin        | Officer  |       4 | 6500.00 |
+|  7 | Franky            | Engineer |       5 | 6000.00 |
+|  8 | Brook             | Crew     |       5 | 5000.00 |
+|  9 | John Watson       | Captain  |       1 | 9500.50 |
+| 10 | Sherlock Holmes   | Officer  |       1 | 7500.00 |
+| 11 | Luffy Monkey      | Captain  |       2 | 9200.00 |
+| 12 | Roronoa Zoro      | Officer  |       2 | 7000.00 |
+| 13 | Tony Chopper      | Crew     |       3 | 4500.00 |
+| 14 | Nami Cat          | Officer  |       3 | 6800.00 |
+| 15 | Franky Iron       | Engineer |       4 | 6500.00 |
+| 16 | Brook Soul        | Engineer |       5 | 6000.00 |
++----+-------------------+----------+---------+---------+
+16 rows in set (0.00 sec)
 
 === 任務 3：條件查詢 ===
 請寫出 SQL 並貼上結果：
 
 Q1：查詢噸位大於 100000 的船舶，按噸位由大到小排序
 （貼上 SQL 語句）
+SELECT * FROM ships 
+WHERE tonnage > 100000 
+ORDER BY tonnage DESC;
 （貼上結果）
-
++----+-------------------+-----------+---------+--------------+
+| id | ship_name         | ship_type | tonnage | arrival_date |
++----+-------------------+-----------+---------+--------------+
+|  1 | Ever Given        | Container |  220940 | 2026-04-10   |
+|  6 | Ever Given        | Container |  220940 | 2026-04-10   |
+|  5 | Kaohsiung Express | Container |  180000 | 2026-04-14   |
+| 10 | Kaohsiung Express | Container |  180000 | 2026-04-14   |
+|  2 | Yang Ming Wish    | Container |  150000 | 2026-04-11   |
+|  7 | Yang Ming Wish    | Container |  150000 | 2026-04-11   |
++----+-------------------+-----------+---------+--------------+
+6 rows in set (0.00 sec)
 Q2：查詢薪水大於 50000 的船員，按薪水由高到低排序
 （貼上 SQL 語句）
+SELECT * FROM crew 
+WHERE salary > 5000 
+ORDER BY salary DESC;
 （貼上結果）
-
++----+-----------------+----------+---------+---------+
+| id | name            | rank     | ship_id | salary  |
++----+-----------------+----------+---------+---------+
+|  1 | Monkey D. Luffy | Captain  |       1 | 9999.99 |
+|  9 | John Watson     | Captain  |       1 | 9500.50 |
+| 11 | Luffy Monkey    | Captain  |       2 | 9200.00 |
+|  2 | Roronoa Zoro    | Officer  |       1 | 8000.00 |
+|  3 | Nami            | Officer  |       2 | 7500.00 |
+| 10 | Sherlock Holmes | Officer  |       1 | 7500.00 |
+|  5 | Vinsmoke Sanji  | Engineer |       3 | 7000.00 |
+| 12 | Roronoa Zoro    | Officer  |       2 | 7000.00 |
+| 14 | Nami Cat        | Officer  |       3 | 6800.00 |
+|  6 | Nico Robin      | Officer  |       4 | 6500.00 |
+| 15 | Franky Iron     | Engineer |       4 | 6500.00 |
+|  7 | Franky          | Engineer |       5 | 6000.00 |
+| 16 | Brook Soul      | Engineer |       5 | 6000.00 |
++----+-----------------+----------+---------+---------+
+13 rows in set (0.00 sec)
 Q3：查詢所有貨櫃船（ship_type = 'Container'）的船名和噸位
 （貼上 SQL 語句）
+SELECT ship_name, tonnage 
+FROM ships 
+WHERE ship_type = 'Container';
 （貼上結果）
-
++-------------------+---------+
+| ship_name         | tonnage |
++-------------------+---------+
+| Ever Given        |  220940 |
+| Yang Ming Wish    |  150000 |
+| Kaohsiung Express |  180000 |
+| Ever Given        |  220940 |
+| Yang Ming Wish    |  150000 |
+| Kaohsiung Express |  180000 |
++-------------------+---------+
+6 rows in set (0.00 sec)
 === 任務 4：修改與刪除 ===
 
 步驟 1：將 Ever Given 的噸位改為 221000
 （貼上 UPDATE 語句）
+UPDATE ships 
+SET tonnage = 221000 
+WHERE ship_name = 'Ever Given';
 （貼上修改後的查詢結果）
-
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
 步驟 2：刪除 crew 表中薪水最低的那筆資料
 （貼上 DELETE 語句）
+DELETE FROM crew 
+ORDER BY salary ASC 
+LIMIT 1;
 （貼上刪除後 SELECT * FROM crew; 的結果）
-
++----+-----------------+----------+---------+---------+
+| id | name            | rank     | ship_id | salary  |
++----+-----------------+----------+---------+---------+
+|  1 | Monkey D. Luffy | Captain  |       1 | 9999.99 |
+|  2 | Roronoa Zoro    | Officer  |       1 | 8000.00 |
+|  3 | Nami            | Officer  |       2 | 7500.00 |
+|  5 | Vinsmoke Sanji  | Engineer |       3 | 7000.00 |
+|  6 | Nico Robin      | Officer  |       4 | 6500.00 |
+|  7 | Franky          | Engineer |       5 | 6000.00 |
+|  8 | Brook           | Crew     |       5 | 5000.00 |
+|  9 | John Watson     | Captain  |       1 | 9500.50 |
+| 10 | Sherlock Holmes | Officer  |       1 | 7500.00 |
+| 11 | Luffy Monkey    | Captain  |       2 | 9200.00 |
+| 12 | Roronoa Zoro    | Officer  |       2 | 7000.00 |
+| 13 | Tony Chopper    | Crew     |       3 | 4500.00 |
+| 14 | Nami Cat        | Officer  |       3 | 6800.00 |
+| 15 | Franky Iron     | Engineer |       4 | 6500.00 |
+| 16 | Brook Soul      | Engineer |       5 | 6000.00 |
++----+-----------------+----------+---------+---------+
+15 rows in set (0.00 sec)
 請回答：
 Q：為什麼 UPDATE 和 DELETE 一定要加 WHERE 條件？不加會怎樣？
-A：
+A：在 SQL 中，WHERE 的作用是**「限制範圍」。如果不加，指令會套用到全表所有資料**：
+
+資料全毀（全表更新/刪除）
+
+UPDATE 不加 WHERE：會把表中所有紀錄的欄位都改成同一個值。例如原本只想改 A 的薪水，結果全公司的薪水都被改成一樣。
+
+DELETE 不加 WHERE：會直接清空整張表。所有資料列都會被刪掉，只剩下空的結構。
+
+不可逆性
+資料庫執行指令後通常無法像 Word 那樣按「復原 (Undo)」。一旦全表資料被覆蓋或刪除，除非有預先備份，否則無法救回。
+
+風險管理
+不加條件的操作屬於重大疏失。實務上，通常會先用 SELECT 配合相同的 WHERE 條件預覽一次，確認目標正確後才執行修改或刪除。

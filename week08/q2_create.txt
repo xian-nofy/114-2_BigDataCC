@@ -58,8 +58,35 @@ DESCRIBE ships;
 - salary：小數（DECIMAL(10,2)）
 
 （貼上你寫的 CREATE TABLE 語句）
+ CREATE TABLE crew (
+    id I    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     name VARCHAR(50) NOT NULL,
+    ->     `rank` VARCHAR(30),
+    ->     ship_id INT,
+    ->     salary DECIMAL(10,2)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
 （貼上 DESCRIBE crew; 的結果）
++---------+---------------+------+-----+---------+----------------+
+| Field   | Type          | Null | Key | Default | Extra          |
++---------+---------------+------+-----+---------+----------------+
+| id      | int           | NO   | PRI | NULL    | auto_increment |
+| name    | varchar(50)   | NO   |     | NULL    |                |
+| rank    | varchar(30)   | YES  |     | NULL    |                |
+| ship_id | int           | YES  |     | NULL    |                |
+| salary  | decimal(10,2) | YES  |     | NULL    |                |
++---------+---------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
 
 請回答：
 Q：為什麼 crew 表的 ship_id 要對應 ships 表的 id？這樣設計有什麼好處？
-A：
+A：這樣的設計稱為 「外鍵 (Foreign Key)」 關聯，主要有以下三個好處：
+
+資料一致性與正確性：
+確保每位船員都隸屬於一艘「真實存在」的船。透過 ship_id 的對應，系統可以防止把船員分配到一個根本不存在的船隻編號上。
+
+減少資料冗餘（節省空間）：
+我們不需要在 crew 表中重複記錄船名、船型、載重等資訊。只需記錄一個簡單的 id 數字，當需要詳細船隻資料時，再透過 JOIN 指令去 ships 表查詢即可。
+
+方便維護與更新：
+如果某艘船要改名（例如從 "Ever Given" 改為 "Ever Green"），我們只需要在 ships 表修改一次，所有對應到的船員資料都會自動關聯到新名字，不需要逐筆修改成千上萬名船員的資料。

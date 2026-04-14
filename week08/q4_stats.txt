@@ -1,40 +1,132 @@
-姓名：
-學號：
+姓名：陳璽安
+學號：C112181101
 
 === 任務 1：統計函數 ===
 請寫出 SQL 並貼上結果：
 
 Q1：查詢船舶總數、平均噸位、最大噸位、最小噸位
 （貼上 SQL 語句）
+SELECT 
+    COUNT(*) AS 總船數, 
+    AVG(tonnage) AS 平均噸位, 
+    MAX(tonnage) AS 最大噸位, 
+    MIN(tonnage) AS 最小噸位 
+FROM ships;
 （貼上結果）
-
++-----------+--------------+--------------+--------------+
+| 總船數    | 平均噸位     | 最大噸位     | 最小噸位     |
++-----------+--------------+--------------+--------------+
+|        10 |  146200.0000 |       221000 |        85000 |
++-----------+--------------+--------------+--------------+
+1 row in set (0.00 sec)
 Q2：查詢噸位最大的前 3 艘船（使用 ORDER BY + LIMIT）
 （貼上 SQL 語句）
+SELECT * FROM ships 
+ORDER BY tonnage DESC 
+LIMIT 3;
 （貼上結果）
-
++----+-------------------+-----------+---------+--------------+
+| id | ship_name         | ship_type | tonnage | arrival_date |
++----+-------------------+-----------+---------+--------------+
+|  1 | Ever Given        | Container |  221000 | 2026-04-10   |
+|  6 | Ever Given        | Container |  221000 | 2026-04-10   |
+| 10 | Kaohsiung Express | Container |  180000 | 2026-04-14   |
++----+-------------------+-----------+---------+--------------+
+3 rows in set (0.00 sec)
 === 任務 2：GROUP BY 分組統計 ===
 
 Q3：統計每種船型（ship_type）的船舶數量和平均噸位
 （貼上 SQL 語句）
+SELECT 
+    ship_type, 
+    COUNT(*) AS 船舶數量, 
+    AVG(tonnage) AS 平均噸位 
+FROM ships 
+GROUP BY ship_type;
 （貼上結果）
++-----------+--------------+--------------+
+| ship_type | 船舶數量     | 平均噸位     |
++-----------+--------------+--------------+
+| Container |            6 |  183666.6667 |
+| Bulk      |            2 |   85000.0000 |
+| Tanker    |            2 |   95000.0000 |
++-----------+--------------+--------------+
+3 rows in set (0.00 sec)
 
 Q4：統計每種職位（rank）的船員人數和平均薪水
 （貼上 SQL 語句）
+SELECT 
+    `rank`, 
+    COUNT(*) AS 船員人數, 
+    AVG(salary) AS 平均薪水 
+FROM crew 
+GROUP BY `rank`;
 （貼上結果）
-
++----------+--------------+--------------+
+| rank     | 船員人數     | 平均薪水     |
++----------+--------------+--------------+
+| Captain  |            3 |  9566.830000 |
+| Officer  |            6 |  7216.666667 |
+| Engineer |            4 |  6375.000000 |
+| Crew     |            2 |  4750.000000 |
++----------+--------------+--------------+
+4 rows in set (0.00 sec)
 === 任務 3：LEFT JOIN 多表查詢 ===
 
 Q5：查詢每位船員的姓名、職位、薪水，以及他所屬的船名
 提示：用 LEFT JOIN 把 crew 和 ships 接起來
 （貼上 SQL 語句）
+SELECT 
+    crew.name, 
+    crew.`rank`, 
+    crew.salary, 
+    ships.ship_name
+FROM crew
+LEFT JOIN ships ON crew.ship_id = ships.id;
 （貼上結果）
-
++-----------------+----------+---------+-------------------+
+| name            | rank     | salary  | ship_name         |
++-----------------+----------+---------+-------------------+
+| Monkey D. Luffy | Captain  | 9999.99 | Ever Given        |
+| Roronoa Zoro    | Officer  | 8000.00 | Ever Given        |
+| Nami            | Officer  | 7500.00 | Yang Ming Wish    |
+| Vinsmoke Sanji  | Engineer | 7000.00 | Formosa 1         |
+| Nico Robin      | Officer  | 6500.00 | Ocean Star        |
+| Franky          | Engineer | 6000.00 | Kaohsiung Express |
+| Brook           | Crew     | 5000.00 | Kaohsiung Express |
+| John Watson     | Captain  | 9500.50 | Ever Given        |
+| Sherlock Holmes | Officer  | 7500.00 | Ever Given        |
+| Luffy Monkey    | Captain  | 9200.00 | Yang Ming Wish    |
+| Roronoa Zoro    | Officer  | 7000.00 | Yang Ming Wish    |
+| Tony Chopper    | Crew     | 4500.00 | Formosa 1         |
+| Nami Cat        | Officer  | 6800.00 | Formosa 1         |
+| Franky Iron     | Engineer | 6500.00 | Ocean Star        |
+| Brook Soul      | Engineer | 6000.00 | Kaohsiung Express |
++-----------------+----------+---------+-------------------+
+15 rows in set (0.00 sec)
 Q6：找出沒有任何船員的船舶
 提示：LEFT JOIN + WHERE ... IS NULL
 （貼上 SQL 語句）
+SELECT 
+    ships.ship_name
+FROM ships
+LEFT JOIN crew ON ships.id = crew.ship_id
+WHERE crew.id IS NULL;
 （貼上結果）
++-------------------+
+| ship_name         |
++-------------------+
+| Ever Given        |
+| Yang Ming Wish    |
+| Formosa 1         |
+| Ocean Star        |
+| Kaohsiung Express |
++-------------------+
+5 rows in set (0.00 sec)
 
 請回答：
 Q：LEFT JOIN 和直接查兩張表（SELECT * FROM crew, ships WHERE ...）有什麼不同？
    提示：想想「沒有船員的船」在兩種寫法下會不會出現。
-A：
+A：直接查詢 (WHERE)：像是在找「兩邊都有交集」的人，比較嚴格。
+
+   LEFT JOIN：像是在「點名」，以一邊為主，就算另一邊沒人來（沒資料）也要把名字列出來。
