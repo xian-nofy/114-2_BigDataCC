@@ -32,13 +32,15 @@
 在 WSL 中完成 MySQL 安裝與設定，將過程存入 `week08/q1_install.txt`：
 
 ```
-姓名：
-學號：
+姓名：陳璽安
+學號：C112181101
 
 === 任務 1：確認 WSL 環境 ===
 在 Windows PowerShell 中執行：
 wsl --list --verbose
 （貼上結果）
+  NAME      STATE           VERSION
+* Ubuntu    Stopped         2
 
 === 任務 2：安裝 MySQL ===
 進入 WSL 後依序執行，貼上每步結果：
@@ -46,49 +48,120 @@ wsl --list --verbose
 步驟 1：更新套件庫
 sudo apt update && sudo apt upgrade -y
 （貼上最後幾行結果即可）
+Processing triggers for rsyslog (8.2312.0-3ubuntu9.1) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+Processing triggers for dbus (1.14.10-4ubuntu4.1) ...
+Processing triggers for install-info (7.1-3build2) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.7) ...
+/sbin/ldconfig.real: /usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link
 
 步驟 2：安裝 MySQL Server
 sudo apt install -y mysql-server
 （貼上最後幾行結果即可）
-
+Setting up libcgi-pm-perl (4.63-1) ...
+Setting up libhtml-template-perl (2.97-2) ...
+Setting up mysql-server (8.0.45-0ubuntu0.24.04.1) ...
+Setting up libcgi-fast-perl (1:2.17-1) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.7) ...
+/sbin/ldconfig.real: /usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link
 步驟 3：啟動 MySQL 服務
 sudo service mysql start
 （貼上結果）
-
+ mysql.service - MySQL Community Server
+     Loaded: loaded (/usr/lib/systemd/system/mysql.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2026-04-14 14:34:45 CST; 54min ago
+    Process: 3367 ExecStartPre=/usr/share/mysql/mysql-systemd-start pre (code=exited, status=0/SUCCES>
+   Main PID: 3376 (mysqld)
+     Status: "Server is operational"
+      Tasks: 38 (limit: 9275)
+     Memory: 353.3M (peak: 380.5M)
+        CPU: 17.369s
+     CGroup: /system.slice/mysql.service
+             └─3376 /usr/sbin/mysqld
 步驟 4：確認 MySQL 正在運行
 sudo service mysql status
 （貼上結果，應顯示 running）
+● mysql.service - MySQL Community Server
+     Loaded: loaded (/usr/lib/systemd/system/mysql.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2026-04-14 14:34:45 CST; 1h 1min ago
+    Process: 3367 ExecStartPre=/usr/share/mysql/mysql-systemd-start pre (code=exited, status=0/SUCCES>
+   Main PID: 3376 (mysqld)
+     Status: "Server is operational"
+      Tasks: 38 (limit: 9275)
+     Memory: 353.3M (peak: 380.5M)
+        CPU: 19.594s
+     CGroup: /system.slice/mysql.service
+             └─3376 /usr/sbin/mysqld
 
+Apr 14 14:34:44 U37 systemd[1]: Starting mysql.service - MySQL Community Server...
+Apr 14 14:34:45 U37 systemd[1]: Started mysql.service - MySQL Community Server.
+lines 1-14/14 (END)
 === 任務 3：登入 MySQL ===
 
 步驟 1：用 sudo 登入 MySQL（WSL 預設不需要密碼）
 sudo mysql
 （貼上登入成功畫面，應顯示 Welcome to the MySQL monitor）
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.45-0ubuntu0.24.04.1 (Ubuntu)
 
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>
 步驟 2：確認版本
 SELECT VERSION();
 （貼上結果）
++-------------------------+
+| VERSION()               |
++-------------------------+
+| 8.0.45-0ubuntu0.24.04.1 |
++-------------------------+
+1 row in set (0.00 sec)
 
 步驟 3：查看預設資料庫
 SHOW DATABASES;
 （貼上結果）
-```
-
----
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.01 sec)
 
 ## 第 2 題：建立資料庫與資料表
 
 延續第 1 題的 MySQL 環境，建立港口資料庫，將過程存入 `week08/q2_create.txt`：
 
 ```
-姓名：
-學號：
+姓名：陳璽安
+學號：C112181101
 
 === 任務 1：建立資料庫 ===
 CREATE DATABASE port_db;
 SHOW DATABASES;
 USE port_db;
 （貼上每步結果）
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| port_db            |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+Database changed
 
 === 任務 2：建立 ships 資料表 ===
 CREATE TABLE ships (
@@ -99,12 +172,28 @@ CREATE TABLE ships (
     arrival_date DATE
 );
 （貼上結果）
-
+Query OK, 0 rows affected (0.07 sec)
 查看表結構：
 SHOW TABLES;
 DESCRIBE ships;
 （貼上結果）
++-------------------+
+| Tables_in_port_db |
++-------------------+
+| ships             |
++-------------------+
+1 row in set (0.00 sec)
 
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| id           | int          | NO   | PRI | NULL    | auto_increment |
+| ship_name    | varchar(100) | NO   |     | NULL    |                |
+| ship_type    | varchar(50)  | YES  |     | NULL    |                |
+| tonnage      | int          | YES  |     | NULL    |                |
+| arrival_date | date         | YES  |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
 === 任務 3：自己建立第二張表 crew ===
 請自行寫出 CREATE TABLE 語句，建立 crew 表，需包含以下欄位：
 - id：整數，自動遞增，主鍵
@@ -119,7 +208,6 @@ DESCRIBE ships;
 請回答：
 Q：為什麼 crew 表的 ship_id 要對應 ships 表的 id？這樣設計有什麼好處？
 A：
-```
 
 ---
 
@@ -143,6 +231,17 @@ INSERT INTO ships (ship_name, ship_type, tonnage, arrival_date) VALUES
 
 SELECT * FROM ships;
 （貼上結果）
+mysql> SELECT * FROM ships;
++----+-------------------+-----------+---------+--------------+
+| id | ship_name         | ship_type | tonnage | arrival_date |
++----+-------------------+-----------+---------+--------------+
+|  1 | Ever Given        | Container |  220940 | 2026-04-10   |
+|  2 | Yang Ming Wish    | Container |  150000 | 2026-04-11   |
+|  3 | Formosa 1         | Bulk      |   85000 | 2026-04-12   |
+|  4 | Ocean Star        | Tanker    |   95000 | 2026-04-13   |
+|  5 | Kaohsiung Express | Container |  180000 | 2026-04-14   |
++----+-------------------+-----------+---------+--------------+
+5 rows in set (0.00 sec)
 
 === 任務 2：新增船員資料 ===
 在 crew 表中插入至少 8 筆船員資料，要求：
@@ -182,7 +281,6 @@ Q3：查詢所有貨櫃船（ship_type = 'Container'）的船名和噸位
 請回答：
 Q：為什麼 UPDATE 和 DELETE 一定要加 WHERE 條件？不加會怎樣？
 A：
-```
 
 ---
 
